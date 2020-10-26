@@ -1,0 +1,562 @@
+<br>
+
+<div style="margin-left: 20px;">
+    <i class="fa fa-arrow-left fa-lg deleteIcone" [routerLink]="['/rules']"></i>
+</div>
+
+<div class="container shadow" style=" padding-right: 10px; padding-left: 10px; padding-top: 15px; padding-bottom: 20px; background-color: white; border-radius: 10px;">
+
+    <div *ngIf="!displayFirstForm">
+
+        <button type="button" class="btn btn-default hoverBtn" (click)="onBackFormClick()">
+            <i class="fa fa-arrow-left fa-lg hoverBtn"
+                style="color: black;"></i><span style="font-size: 17px; font-weight: 500; margin-left: 5px;">Back</span></button>
+
+                <hr>
+
+    </div>
+
+
+    <div class="row" *ngIf="displayFirstForm" style="margin-top: 30px; margin-bottom: 30px;">
+
+        <div class="col-md-2"></div>
+
+        <div class="col-md-8">
+
+            <form [formGroup]="ruleForm" action="" class="justify-content-center">
+
+                <div style="margin-top: 60px;">
+
+
+                    <div class="row">
+
+                        <div class="form-group col-lg-6">
+                            <label class="labelDesign">Name :</label>
+                            <input formControlName="name" type="text" class="form-control" placeholder="Rule name...">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label class="labelDesign">Value :</label>
+                            <input formControlName="value" type="text" class="form-control" placeholder="value...">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="labelDesign">Description :</label>
+                        <input formControlName="discription" type="text" class="form-control"
+                            placeholder="Description...">
+                    </div>
+
+
+
+
+
+
+                </div>
+
+            </form>
+
+
+
+        </div>
+
+
+
+        <div class="col-md-2"></div>
+
+    </div>
+
+
+   
+   
+   
+    <div *ngIf="!displayFirstForm" style="margin-top: 10px;;">
+
+        <div id="simpleConditionDiv">
+
+            <div class="conditionLabelWhite">Condition :
+                <span>
+                    <button *ngIf="simpleCondition == null" (click)="onClickAddSimpleCondition()"
+                        class="btn btn-default shadow-sm addBtn">
+                        <i class="fa fa-plus fa-md"></i>
+                    </button></span>
+            </div>
+
+
+            <div id="OrConditionList" *ngIf="simpleCondition != null" class="row">
+
+
+
+                <div class="col-md-6 " style="background-color: transparent;">
+
+                    <div class="conditionCard shadow-lg ">
+
+
+                        <div class=" row">
+
+                            <div class="h6 col-6">
+                                <div style="color: grey; font-weight: 400; font-size: 15px;">Attribute : </div>
+                                {{simpleCondition.attribute}}
+                            </div>
+                            <div class="h6 col-6">
+                                <div style="color: grey; font-weight: 400; font-size: 15px;">Operator : </div>
+                                {{simpleCondition.operator}}
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-6" style="color: grey; font-weight: 400; font-size: 15px;">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        Value: <span class="valuesCountDiv">({{simpleCondition.value.length}})</span>
+                                    </div>
+
+                                    
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-6">
+
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i (click)="onClickEditSimpleCondition()"
+                                    class="fa fa-pencil-square-o fa-sm deleteIcone"></i>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <i class="fa fa-trash fa-sm deleteIcone" (click)="onClickDeleteSimpleCondition()"></i>
+                                    </div>
+                                     <div class="col-4" (click)="onClickShowMore('',i)">
+                                    <i class="fa fa-window-maximize fa-sm deleteIcone"></i>
+
+                                    </div>
+
+                                </div>
+
+                                
+                                
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+        <hr class="hrLine">
+
+        <div id="simpleConditionDiv">
+
+            <div class="conditionLabelWhite" style="margin-left: 10px;">AND :
+                <span><button (click)="onClickAddAndCondition()" class="btn btn-default shadow-sm addBtn"><i
+                            class="fa fa-plus fa-sm"></i>
+                    </button></span>
+            </div>
+
+
+            <div id="OrConditionList" class="row">
+
+
+
+                <div *ngFor="let or of andArray; let i= index" class="col-md-6 " style="background-color: transparent;">
+
+                    <div class="conditionCard shadow-lg ">
+
+
+                        <div class=" row">
+
+                            <div class="h6 col-6">
+                                <div style="color: grey; font-weight: 400; font-size: 15px;">Attribute : </div>
+                                {{or.attribute}}
+                            </div>
+                            <div class="h6 col-6">
+                                <div style="color: grey; font-weight: 400; font-size: 15px;">Operator : </div>
+                                {{or.operator}}
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-6" style="color: grey; font-weight: 400; font-size: 15px;">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        Value: <span class="valuesCountDiv">({{or.value.length}})</span>
+                                    </div>
+
+                                   
+
+                                </div>
+
+
+                            </div>
+
+                            
+
+                            <div class="col-6">
+
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i (click)="onClickEditAndCondition(i)"
+                                    class="fa fa-pencil-square-o fa-sm deleteIcone"></i>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <i class="fa fa-trash fa-sm deleteIcone" (click)="onClickDeleteANDCondition(i)"></i>
+                                    </div>
+                                     <div class="col-4" (click)="onClickShowMore('AND',i)">
+                                    <i class="fa fa-window-maximize fa-sm deleteIcone"></i>
+
+                                    </div>
+
+                                </div>
+
+                                
+                                
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <hr class="hrLine">
+
+        <div id="simpleConditionDiv">
+
+            <div class="conditionLabelWhite" style="margin-left: 10px;">OR :
+                <span><button (click)="onClickAddOrCondition()" class="btn btn-default shadow-sm addBtn"><i
+                            class="fa fa-plus fa-md"></i>
+                    </button></span>
+            </div>
+
+            <div id="OrConditionList" class="row">
+
+
+
+                <div *ngFor="let or of orArray; let i= index" class="col-md-6 " style="background-color: transparent;">
+
+                    <div class="conditionCard shadow-lg ">
+
+
+                        <div class=" row">
+
+                            <div class="h6 col-6">
+                                <div style="color: grey; font-weight: 400; font-size: 15px;">Attribute : </div>
+                                {{or.attribute}}
+                            </div>
+                            <div class="h6 col-6">
+                                <div style="color: grey; font-weight: 400; font-size: 15px;">Operator : </div>
+                                {{or.operator}}
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-6" style="color: grey; font-weight: 400; font-size: 15px;">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        Value: <span class="valuesCountDiv">({{or.value.length}})</span>
+                                    </div>
+
+                                   
+
+                                </div>
+                            </div>
+
+                           
+
+                            <div class="col-6">
+
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i (click)="onClickEditOrCondition(i)"
+                                    class="fa fa-pencil-square-o fa-sm deleteIcone"></i>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <i class="fa fa-trash fa-sm deleteIcone" (click)="onClickDeleteORCondition(i)"></i>
+                                    </div>
+                                     <div class="col-4" (click)="onClickShowMore('OR',i)">
+                                    <i class="fa fa-window-maximize fa-sm deleteIcone"></i>
+
+                                    </div>
+
+                                </div>
+
+                                
+                                
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <hr class="hrLine">
+        <br>
+        <div class="text-center">
+            <button type="button" [disabled]=" !((((andArray.length > 0) || (orArray.length > 0)) || (simpleCondition != null)) && ruleForm.valid)" class="btn btn-primary" (click)="onClickSubmitRule()">Submit</button>
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <div>
+        <div class="row">
+            <div class="col-sm-10"></div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-default hoverBtn" *ngIf="displayFirstForm" (click)="onNextFormClick()">
+                    <span style="font-size: 17px; font-weight: 500; margin-right: 5px;">Next</span>
+                    <i class="fa fa-arrow-right fa-lg hoverBtn" style="color: black;"></i></button>
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+
+</div>
+
+<br><br><br>
+
+
+
+
+
+<div class="modalDiv" *ngIf="showFormModal">
+
+    <div class="row">
+
+        <div class="col-sm-3"></div>
+
+        <div class="modal-content col-sm-6">
+
+            <div class="">
+                <div class="">
+
+                    <div class="h4 closeIcon closeBtn" style="cursor: pointer;text-align: right;" (click)="onCloseAddForm()">
+                        X
+                    </div>
+
+                    <div class="formTitle">{{formMode}} <span style="color: black;" *ngIf="conditionType != ''">'{{ conditionType }}'</span>
+                        Condition
+                    </div>
+
+
+                    <hr>
+
+                    <div>
+                        <form [formGroup]="conditionForm">
+
+
+
+                            <div>
+
+
+
+                                <div class="row">
+
+                                    <div class="form-group col-md-6">
+                                        <label class="labelDesignBlack">Attribute :</label>
+                                        <input formControlName="attribute" type="text" class="form-control"
+                                            placeholder="Attribute...">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="labelDesignBlack">Operator :</label>
+                                        <input formControlName="operator" type="text" class="form-control"
+                                            placeholder="Operator...">
+                                    </div>
+
+                                </div>
+
+
+                                <hr>
+
+                                <div class="form-group">
+                                    <label class="labelDesignBlack">Value :</label>
+
+                                    <br>
+
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div *ngFor="let value of tempValuesArray; let i= index"
+                                            class=" col-lg-4 col-md-6">
+                                            <span class="valueRemoveBtn"
+                                                (click)="onclickRemoveValue(i)">X</span><span>{{i + 1}}.</span>
+                                            <span style="margin-left: 10px;">{{value}}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <input type="text" class="form-control" formControlName="tempValue"
+                                                placeholder="Enter value">
+                                        </div>
+
+                                        <div class="col-4">
+
+                                            <button type="button" class="btn btn-success"
+                                                (click)="onAddValue()">Add</button>
+
+                                        </div>
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+                            <hr>
+                            <button class="btn btn-primary" [disabled]="!conditionForm.valid || tempValuesArray.length == 0" type="submit"
+                                (click)="onSubmitAddCondition()">Submit</button>
+
+
+
+                        </form>
+
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-sm-3"></div>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="modalDiv" *ngIf="showMoreModal">
+
+    <div class="row">
+
+        <div class="col-sm-3"></div>
+
+        <div class="modal-content col-sm-6">
+
+            <div class="">
+                <div class="">
+
+                    <div class="h4 closeIcon closeBtn" style="cursor: pointer;text-align: right;" (click)="onCloseShowMoreModal()">
+                        X
+                    </div>
+
+                    <div class="formTitle"> <span style="color: black;" *ngIf="conditionType != ''">'{{ conditionType }}'</span>
+                        Condition
+                    </div>
+
+
+                    <hr>
+
+                    <div>
+
+
+
+                            <div>
+
+
+
+                                <div class="row">
+
+                                    <div class="form-group col-md-6">
+                                        <label style="color: grey; font-weight: 400; font-size: 17px;">Attribute :</label>
+                                        
+                                        <div class="" style="font-weight: 600; font-size: 17px;">{{showMoreCondition.attribute}}</div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group col-md-6" >
+                                        <label class="" style="color: grey; font-weight: 400; font-size: 17px;">Operator :</label>
+                                        <div class="" style="font-weight: 600; font-size: 17px;">{{showMoreCondition.operator}}</div>
+                                    </div>
+
+                                </div>
+
+
+                                <hr>
+
+                                <div class="form-group">
+                                    <label class="labelDesignBlack">Value :</label>
+
+                                    <br>
+
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div *ngFor="let value of showMoreCondition.value; let i= index"
+                                            class=" col-lg-4 col-md-6">
+                                            <span>{{i + 1}}.</span>
+                                            <span style="margin-left: 10px;">{{value}}</span>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+
+                            </div>
+
+                            <hr>
+                            <button class="btn btn-default shadow-lg" style="border: 1px solid lightgrey;" type="button"
+                                (click)="onClickEditFromShowMore()"><i class="fa fa-pencil fa-sm" style="margin-right: 5px;"></i>Edit</button>
+
+
+
+                       
+
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-sm-3"></div>
+
+
+    </div>
+
+
+</div>

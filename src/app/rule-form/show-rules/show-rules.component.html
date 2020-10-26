@@ -1,0 +1,353 @@
+<br>
+
+<div style="margin-left: 10px;" *ngIf="!displayShowRuleDetail">
+    <button class="btn btn-primary" style="font-weight: 600;" [routerLink]="['/rules', 'add']">+ Rule</button>
+</div>
+
+<div class="container" *ngIf="!displayShowRuleDetail">
+   
+    <div class="row" *ngIf="rulesList != null">
+
+        <div *ngFor="let rule of rulesList; let i= index;" class="col-lg-4 col-md-6">
+
+            <div class="shadow" style="margin: 10px; padding: 10px;">
+
+                <div class="row">
+    
+                    <div class="col-6">
+        
+                        <div class="labelFont">Name :</div>
+                        <div class="valueFont">{{rule.name}}</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="labelFont">value :</div>
+                        <div class="valueFont">{{rule.value}}</div>
+                    </div>
+        
+                </div>
+                <hr>
+                <div class="row">
+
+                    <div class="col-6">
+                        <div class="labelFont">Conditions :
+                            <span class="valueFont" style="margin-left: 3px; color: black;">({{(rule.condition.and.length) + (rule.condition.or.length)}}+)</span>
+                        </div>
+                        
+                    </div>
+                    <div class="col-6">
+
+                        <div class="row">
+                            <div class="col-4" (click)="onClickEditRule(rule.id)">
+                                <i class="fa fa-pencil-square-o iconDesign"></i>
+                            </div>
+                            <div class="col-4" (click)="onClickDeleteRule(rule.id)">
+                                <i class="fa fa-trash iconDesign"></i>
+                            </div>
+                            <div class="col-4" (click)="onClickRuleDetail(i)">
+                                <i class="fa fa-window-maximize iconDesign"></i>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    
+    </div>
+
+    <div class="h5 text-center" *ngIf="rulesList == null">Loading...</div>
+
+    
+</div>
+
+
+
+<div *ngIf="displayShowRuleDetail">
+
+    <div style="margin-left: 20px; cursor: pointer;" (click)="onClickCloseRuleDetail()">
+        <i class="fa fa-arrow-left fa-lg"></i>
+    </div>
+
+    <div class="container shadow" style="padding-top: 20px; padding-bottom: 20px;">
+
+        <div class="text-right" style="margin-left: 20px;">
+            <i class="fa fa-pencil-square-o fa-lg deleteIcone" [routerLink]="['/edit',ruleDetail.id]"></i>
+            <i class="fa fa-trash fa-lg deleteIcone" (click)="onClickDeleteRule(ruleDetail.id)" style="margin-left: 15px;"></i>
+
+        </div>
+
+        <div *ngIf="ruleDetail != null">
+    
+            <div class="row">
+                <div class="col-sm-6">
+                    <div style="color: grey; font-weight: 400; font-size: 15px;">Name :</div>
+                    <div class="h6">{{ruleDetail.name}}</div>
+                </div>
+                <div class="col-sm-6">
+                    <div style="color: grey; font-weight: 400; font-size: 15px;">Value :</div>
+                    <div class="h6">{{ruleDetail.value}}</div>
+                </div>
+    
+            </div>
+
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-12">
+                    <div style="color: grey; font-weight: 400; font-size: 15px;">Description :</div>
+                    <div class="h6">{{ruleDetail.discription}}</div>
+                </div>
+            </div>
+
+            <hr style="border-top: 2px solid lightgrey;">
+
+            <div class="h5 conditionTitle">Conditions :</div>
+            
+            <div>
+
+                
+            <div class="row" style="margin-left: 10px;">
+                <div class="conditionCard shadow-lg col-lg-4 col-md-6">
+
+
+                    <div class=" row">
+
+                        <div class="h6 col-6">
+                            <div style="color: grey; font-weight: 400; font-size: 15px;">Attribute : </div>
+                            {{ruleDetail.condition.attribute}}
+                        </div>
+                        <div class="h6 col-6">
+                            <div style="color: grey; font-weight: 400; font-size: 15px;">Operator : </div>
+                            {{ruleDetail.condition.operator}}
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-6" style="color: grey; font-weight: 400; font-size: 15px;">
+                            
+                                <div>
+                                    Value: <span class="valuesCountDiv">({{ruleDetail.condition.value.length}})</span>
+                                </div>
+
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4"></div>
+                                <div class="col-4" (click)="onClickShowConditionDetails('',ruleDetail.condition)"><i class="fa fa-window-maximize fa-sm deleteIcone"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+            </div>
+
+            </div>
+
+            <hr>
+
+
+            <div id="ANDConditions" *ngIf="ruleDetail.condition.and.length > 0">
+
+            <div class="h5 conditionTitle" style="margin-left: 15px;">AND :</div>
+
+            <div class="row">
+
+                <div *ngFor="let and of ruleDetail.condition.and" class=" col-md-6">
+
+                    <div class="conditionCard shadow-lg ">
+
+
+                        <div class=" row">
+    
+                            <div class="h6 col-6">
+                                <div style="color: grey; font-weight: 400; font-size: 15px;">Attribute : </div>
+                                {{and.attribute}}
+                            </div>
+                            <div class="h6 col-6">
+                                <div style="color: grey; font-weight: 400; font-size: 15px;">Operator : </div>
+                                {{and.operator}}
+                            </div>
+                        </div>
+                        <hr>
+    
+                        <div class="row">
+                            <div class="col-6" style="color: grey; font-weight: 400; font-size: 15px;">
+                                
+                                    <div>
+                                        Value: <span class="valuesCountDiv">({{and.value.length}})</span>
+                                    </div>
+    
+                            </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-4"></div>
+                                    <div class="col-4"></div>
+                                    <div class="col-4" (click)="onClickShowConditionDetails('AND',and)"><i class="fa fa-window-maximize fa-sm deleteIcone"></i>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            </div>
+                </div>
+
+                </div>
+
+            </div>
+
+            </div>
+
+            <hr>
+
+            
+
+            <div id="ANDConditions" *ngIf="ruleDetail.condition.or.length > 0">
+
+                <div class="h5 conditionTitle" style="margin-left: 15px;">OR :</div>
+    
+                <div class="row">
+    
+                    <div *ngFor="let or of ruleDetail.condition.or" class=" col-md-6">
+    
+                        <div class="conditionCard shadow-lg ">
+    
+    
+                            <div class=" row">
+        
+                                <div class="h6 col-6">
+                                    <div style="color: grey; font-weight: 400; font-size: 15px;">Attribute : </div>
+                                    {{or.attribute}}
+                                </div>
+                                <div class="h6 col-6">
+                                    <div style="color: grey; font-weight: 400; font-size: 15px;">Operator : </div>
+                                    {{or.operator}}
+                                </div>
+                            </div>
+                            <hr>
+        
+                            <div class="row">
+                                <div class="col-6" style="color: grey; font-weight: 400; font-size: 15px;">
+                                    
+                                        <div>
+                                            Value: <span class="valuesCountDiv">({{or.value.length}})</span>
+                                        </div>
+        
+                                </div>
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-4"></div>
+                                        <div class="col-4"></div>
+                                        <div class="col-4" (click)="onClickShowConditionDetails('OR',or)"><i class="fa fa-window-maximize fa-sm deleteIcone"></i>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                </div>
+                    </div>
+    
+                    </div>
+    
+                </div>
+    
+                </div>
+
+            </div>
+    
+        <div *ngIf="ruleDetail == null">
+    
+    
+        </div>
+    
+    </div>
+
+</div>
+
+
+
+
+
+<div class="modalDiv" *ngIf="showConditionDetailModal">
+
+    <div class="row">
+
+        <div class="col-sm-3"></div>
+
+        <div class="modal-content col-sm-6">
+
+            <div class="">
+                <div class="">
+
+                    <div class="h4 closeIcon closeBtn" style="cursor: pointer;text-align: right;" (click)="onCloseConditionDetailModal()">
+                        X
+                    </div>
+
+                    <div class="formTitle"> <span style="color: black;" *ngIf="selectedConditionType != ''">'{{ selectedConditionType }}'</span>
+                        Condition
+                    </div>
+
+
+                    <hr>
+
+                    <div>
+
+
+
+                            <div>
+
+
+
+                                <div class="row">
+
+                                    <div class="form-group col-md-6">
+                                        <label style="color: grey; font-weight: 400; font-size: 17px;">Attribute :</label>
+                                        
+                                        <div class="" style="font-weight: 600; font-size: 17px;">{{selectedCondition.attribute}}</div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group col-md-6" >
+                                        <label class="" style="color: grey; font-weight: 400; font-size: 17px;">Operator :</label>
+                                        <div class="" style="font-weight: 600; font-size: 17px;">{{selectedCondition.operator}}</div>
+                                    </div>
+
+                                </div>
+
+
+                                <hr>
+
+                                <div class="form-group">
+                                    <label class="labelDesignBlack">Value :</label>
+
+                                    <br>
+
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div *ngFor="let value of selectedCondition.value; let i= index"
+                                            class=" col-lg-4 col-md-6">
+                                            <span>{{i + 1}}.</span>
+                                            <span style="margin-left: 10px;">{{value}}</span>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+
+                            </div>
+
+                  
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-sm-3"></div>
+
+
+    </div>
+
+
+</div>

@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow-sm fixed-top">
+
+
+    <a (click)="toggleSideNavigation()" class="d-block d-sm-none" style="font-weight: 600; cursor: pointer; margin-right: 15px;"><i class="fa fa-bars fa-lg" style="color: black;"></i>
+</a>
+
+
+    <a class="navbar-brand" [routerLink]="['/rules']" style="font-weight: bold; color:darkred">
+        <i class="fa fa-cogs fa-sm fa-fw mr-2" width="30" height="30" style="color: chocolate"></i>
+        Rule Machine
+    </a>
+
+    <ul class="navbar-nav ml-auto">
+
+
+        <div class="topbar-divider d-none d-sm-block"></div>
+
+
+
+        <li class="h6 m-2 mr-5 d-none d-sm-block" style="cursor: pointer;" [routerLink]="['/rules/']"
+            [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active">Rules</li>
+
+        <li class="h6 m-2 mr-5 d-none d-sm-block" style="cursor: pointer;" [routerLink]="['/rules/add']"
+            routerLinkActive="active">Add Rule
+        </li>
+
+        </ul>
+
+
+</nav>
+<br><br>
+
+<router-outlet></router-outlet>
